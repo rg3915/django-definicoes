@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="https://www.djangoproject.com/favicon.ico">
+  <title>Django Definições</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+  <!-- Font-awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+  <!-- Bootstrap core JS -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="jumbotron">
+    <h1>Django Definições</h1>
+  </div>
+
+  <ul>
+    <li>
+      <a href="{% url 'core:my_render_to_response' %}">render_to_response</a>
+    </li>
+    <li>
+      <a href="{% url 'core:my_http_response' %}">http_response</a>
+    </li>
+    <li>
+      <a href="{% url 'core:users' %}">users</a>
+    </li>
+    <li>
+      <a href="{% url 'core:user_detail' 1 %}">user_detail</a>
+    </li>
+    <li>
+      <a href="{ url 'core:person_redirected' 1 %}">person_redirected</a>
+    </li>
+    <li>
+      <a href="{ url 'core:persons' %}">persons</a>
+    </li>
+    <li>
+      <a href="{ url 'core:persons_redirected' %}">persons_redirected</a>
+    </li>
+    <li>
+      <a href="{ url 'core:user_redirected' 1 %}">user_redirected</a>
+    </li>
+  </ul>
+</body>
+</html>

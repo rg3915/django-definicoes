@@ -179,6 +179,13 @@ path('user/<int:pk>/', v.user_detail, name='user_detail'),
 **Exemplo:**
 
 ```python
+# urls.py
+path('ping/', v.ping, name='ping'),
+```
+
+
+```python
+# views.py
 def ping(request):
     print(request.GET)
     name = request.GET.get('name')
@@ -190,7 +197,7 @@ def ping(request):
 >>> url = 'http://localhost:8000/ping/?name=John&age=42'
 >>> r = requests.get(url)
 >>> r.content
->>> 'pong John'
+b'pong John'
 ```
 
 Veja a saída do print:
