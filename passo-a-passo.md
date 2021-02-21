@@ -426,6 +426,7 @@ E em `urls.py` escreva
 
 ```python
 # urls.py
+path('book/', v.BookListView.as_view(), name='book_list'),
 path('book/<int:pk>/', v.book_detail, name='book_detail'),
 path('book/add/', v.BookCreateView.as_view(), name='book_create'),
 ```
@@ -436,16 +437,30 @@ E em `views.py` escreva
 
 ```python
 # views.py
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 
 def book_detail(request, pk):
     book = Book.objects.get(pk=pk)
     return HttpResponse(f'Book: {book}')
 
 
+class BookListView(ListView):
+    model = Book
+
+
 class BookCreateView(CreateView):
     model = Book
     fields = '__all__'
+    # Se quiser ir direto para o objeto criado então use get_absolute_url.
+    # O reverse vai dar erro.
+    # success_url = reverse_lazy('core:book_list')
+
+    def get_success_url(self):
+        # Se não quiser usar o get_absolute_url e quiser passar
+        # a instância criada para redirecionar manualmente...
+        return reverse_lazy('core:book_detail', kwargs={'pk': self.object.pk})
+        # ou
+        # return reverse_lazy('core:book_detail', args=(self.object.pk,))
 ```
 
 Vamos criar o template
@@ -453,6 +468,7 @@ Vamos criar o template
 ```
 mkdir myproject/core/templates/core
 touch myproject/core/templates/core/book_form.html
+touch myproject/core/templates/core/book_list.html
 ```
 
 ```html
@@ -486,11 +502,183 @@ touch myproject/core/templates/core/book_form.html
 </html>
 ```
 
+```html
+<!-- book_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="https://www.djangoproject.com/favicon.ico">
+  <title>Definitions</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+  <style>
+    body {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <ul>
+      {% for person in object_list %}
+        <li>{{ person }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>
+```
+
 
 ```html
 <!-- index.html -->
 <li>
+  <a href="{% url 'core:book_list' %}">book_list</a>
+</li>
+<li>
   <a href="{% url 'core:book_create' %}">book_create</a>
+</li>
+```
+
+Usando com o `login_url`
+
+
+```python
+# views.py
+from django.contrib.auth.decorators import login_required
+
+
+@login_required(login_url=reverse_lazy('admin:login'))
+def users(request):
+    return HttpResponse('<h1>Users</h1>')
+```
+
+
+# HttpRequest
+
+**Exemplo:**
+
+Considere
+
+```python
+# urls.py
+path('ping/', v.ping, name='ping'),
+```
+
+```python
+# views.py
+def ping(request):
+    import ipdb
+    ipdb.set_trace()
+    return HttpResponse('pong')
+```
+
+Rode a aplicação, e em outro terminal faça
+
+```python
+$ python
+>>> import requests
+>>> url = 'http://localhost:8000/ping/?name=John&age=42'
+>>> result = requests.get(url)
+```
+
+No outro terminal o ipdb vai parar antes de retornar a resposta da requisição.
+
+Dai faça
+
+```python
+ipdb> request.  # e pressione TAB
+```
+
+Uma das opções interessantes é:
+
+```python
+ipdb> request.method
+'GET'
+```
+
+Outras opções interessantes são
+
+```python
+ipdb> request.GET
+<QueryDict: {'name': ['John'], 'age': ['42']}>
+ipdb> request.FILES
+<MultiValueDict: {}>
+ipdb> request.POST
+<QueryDict: {}>
+```
+
+Para pegar os parâmetros vindo do request podemos fazer
+
+```python
+data = request.GET
+name = data.get('name')
+age = data.get('age')
+# ou mais diretamente
+name = request.GET.get('name')
+age = request.GET.get('age')
+```
+
+Após pressionar `c` de *continue* ...
+
+Do outro lado podemos fazer
+
+```python
+>>> result.status_code
+200
+>>> result.text
+'pong'
+>>> result.content
+b'pong'
+>>> result.url
+'http://localhost:8000/ping/?name=John&age=42'
+```
+
+... dentre outras opções.
+
+Por fim, se preferir você pode tirar o ipdb e fazer
+
+```python
+# views.py
+def ping(request):
+    print(request.GET)
+    return HttpResponse('pong')
+```
+
+E usando `curl` fazer
+
+```
+curl 'localhost:8000/ping/?name=John&age=42'
+
+
+
+## HttpResponseRedirect
+
+```python
+# urls.py
+path('book/redirected/', v.book_redirected, name='book_redirected'),
+```
+
+
+```python
+# views.py
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
+
+def book_redirected(request):
+    return HttpResponseRedirect(reverse('core:book_list'))
+```
+
+
+```html
+<!-- index.html -->
+<li>
+  <a href="{% url 'core:book_redirected' %}">book_redirected</a>
 </li>
 ```
 

@@ -456,19 +456,19 @@ Ou seja, ela é uma função "preguiçosa".
 from django.urls import reverse_lazy
 
 
-class PersonCreateView(CreateView):
-    model = Person
+class BookCreateView(CreateView):
+    model = Book
     fields = '__all__'
     # Se quiser ir direto para o objeto criado então use get_absolute_url.
     # O reverse vai dar erro.
-    # success_url = reverse_lazy('core:person_list')
+    # success_url = reverse_lazy('core:book_list')
 
     def get_success_url(self):
         # Se não quiser usar o get_absolute_url e quiser passar
         # a instância criada para redirecionar manualmente...
-        return reverse_lazy('core:person_detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('core:book_detail', kwargs={'pk': self.object.pk})
         # ou
-        # return reverse_lazy('core:person_detail', args=(self.object.pk,))
+        # return reverse_lazy('core:book_detail', args=(self.object.pk,))
 ```
 
 Usando com o `login_url`
@@ -530,7 +530,7 @@ https://www.programcreek.com/python/example/50074/django.http.HttpRequest
 
 ```python
 def index(request: HttpRequest) -> HttpResponse:
-    return render(request, 'firewall/index.html')
+    return render(request, 'index.html')
 ```
 
 `HttpRequest` é a classe Python que faz a requisição.
@@ -647,7 +647,8 @@ https://simpleisbetterthancomplex.com/article/2016/09/12/shortcuts.html
 ```python
 from django.http import HttpResponseRedirect
 
-return HttpResponseRedirect(reverse('core:person_list'))
+def book_redirected(request):
+    return HttpResponseRedirect(reverse('core:book_list'))
 ```
 
 

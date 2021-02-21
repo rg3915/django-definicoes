@@ -16,6 +16,8 @@ urlpatterns = [
     path('person/redirected/<int:pk>/', v.person_redirected, name='person_redirected'),
     path('person/', v.persons, name='persons'),
     path('person/redirected/', v.persons_redirected, name='persons_redirected'),
+    path('book/', v.BookListView.as_view(), name='book_list'),
     path('book/<int:pk>/', v.book_detail, name='book_detail'),
     path('book/add/', v.BookCreateView.as_view(), name='book_create'),
+    path('book/redirected/', v.book_redirected, name='book_redirected'),
 ]
