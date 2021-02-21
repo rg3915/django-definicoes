@@ -2,7 +2,7 @@
 
 Veremos passo a passo como foi construido o projeto.
 
-> Todas as definições estão no README do projeto.
+> Todas as definições estão no [README](README.md) do projeto.
 
 ## Criar o projeto inicial
 
@@ -47,7 +47,7 @@ echo '<p>{{ name }}</p>' > myproject/core/templates/my_template.html
 
 Depois, abra o terminal e digite
 
-./manage.py shell_plus
+`./manage.py shell_plus`
 
 depois escreva
 
@@ -188,19 +188,8 @@ Crie um novo template
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="https://www.djangoproject.com/favicon.ico">
   <title>Django Definições</title>
-
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-
-  <!-- Font-awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-  <!-- Bootstrap core JS -->
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
   <div class="jumbotron">
