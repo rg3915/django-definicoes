@@ -3,7 +3,8 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.template.loader import render_to_string
-from .models import Person
+from django.views.generic import CreateView
+from .models import Person, Book
 
 
 rendered = render_to_string('my_template.html', {'name': 'render_to_string'})
@@ -54,3 +55,13 @@ def persons_redirected(request):
 def persons(request):
     print('Você será redirecionado')
     return redirect('core:persons_redirected')
+
+
+def book_detail(request, pk):
+    book = Book.objects.get(pk=pk)
+    return HttpResponse(f'Book: {book}')
+
+
+class BookCreateView(CreateView):
+    model = Book
+    fields = '__all__'

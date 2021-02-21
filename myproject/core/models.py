@@ -15,3 +15,18 @@ class Person(models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy('core:person_redirected', kwargs={'pk': self.pk})
+
+
+class Book(models.Model):
+    title = models.CharField('título', max_length=100, unique=True)
+
+    class Meta:
+        ordering = ('title',)
+        verbose_name = 'livro'
+        verbose_name_plural = 'livros'
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse_lazy('core:book_detail', kwargs={'pk': self.pk})

@@ -402,11 +402,12 @@ O `reverse` permite que você passe o nome da url como argumento.
 from django.http import HttpResponse
 
 
-def persons(request):
-    return HttpResponse('Persons')
+def users(request):
+    return HttpResponse('<h1>Users</h1>')
 
-def person_detail(request, pk):
-    return HttpResponse(f'Person {pk}')
+
+def user_detail(request, pk):
+    return HttpResponse(f'User {pk}')
 ```
 
 
@@ -420,8 +421,8 @@ app_name = 'core'
 
 
 urlpatterns = [
-    path('person/', v.persons, name='persons'),
-    path('person/<int:pk>/', v.person_detail, name='person_detail'),
+    path('user/', v.users, name='users'),
+    path('user/<int:pk>/', v.user_detail, name='user_detail'),
 ]
 ```
 
@@ -430,11 +431,11 @@ urlpatterns = [
 ```python
 # shell_plus
 from django.urls import reverse
->>> reverse('core:persons')
-'/person/'
+>>> reverse('core:users')
+'/user/'
 
-reverse('core:person_detail', kwargs={'pk': 1})
-'/person/1/'
+reverse('core:user_detail', kwargs={'pk': 1})
+'/user/1/'
 ```
 
 

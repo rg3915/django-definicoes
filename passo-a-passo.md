@@ -389,3 +389,108 @@ def user_redirected(request, pk):
 Leia também [gist: Métodos funções para salvar o form com redirect HttpResponseRedirect](https://gist.github.com/rg3915/27ecf311cc00a47d8fa262e1669e0299).
 
 
+## reverse
+
+```python
+# shell_plus
+from django.urls import reverse
+>>> reverse('core:users')
+'/user/'
+
+reverse('core:user_detail', kwargs={'pk': 1})
+'/user/1/'
+```
+
+## reverse_lazy
+
+Em `models.py` escreva
+
+```python
+# models.py
+class Book(models.Model):
+    title = models.CharField('título', max_length=100, unique=True)
+
+    class Meta:
+        ordering = ('title',)
+        verbose_name = 'livro'
+        verbose_name_plural = 'livros'
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse_lazy('core:book_detail', kwargs={'pk': self.pk})
+```
+
+E em `urls.py` escreva
+
+```python
+# urls.py
+path('book/<int:pk>/', v.book_detail, name='book_detail'),
+path('book/add/', v.BookCreateView.as_view(), name='book_create'),
+```
+
+
+
+E em `views.py` escreva
+
+```python
+# views.py
+from django.views.generic import CreateView
+
+def book_detail(request, pk):
+    book = Book.objects.get(pk=pk)
+    return HttpResponse(f'Book: {book}')
+
+
+class BookCreateView(CreateView):
+    model = Book
+    fields = '__all__'
+```
+
+Vamos criar o template
+
+```
+mkdir myproject/core/templates/core
+touch myproject/core/templates/core/book_form.html
+```
+
+```html
+<!-- book_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="https://www.djangoproject.com/favicon.ico">
+  <title>Definitions</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+  <style>
+    body {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form action="." method="POST">
+      {% csrf_token %}
+      {{ form }}
+      <button class="btn btn-primary" type="submit">Salvar</button>
+    </form>
+  </div>
+</body>
+</html>
+```
+
+
+```html
+<!-- index.html -->
+<li>
+  <a href="{% url 'core:book_create' %}">book_create</a>
+</li>
+```
+
