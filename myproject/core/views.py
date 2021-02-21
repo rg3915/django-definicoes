@@ -1,7 +1,10 @@
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.template.loader import render_to_string
+from .models import Person
+
 
 rendered = render_to_string('my_template.html', {'name': 'render_to_string'})
 
@@ -31,3 +34,23 @@ def ping(request):
 def index(request):
     template_name = 'index.html'
     return render(request, template_name)
+
+
+def person_redirected(request, pk):
+    person = Person.objects.get(pk=pk)
+    return HttpResponse(f'<p>Você foi redirecionado! pk: {pk}</p><p>{ person.name }</p>')
+
+
+def person_detail(request, pk):
+    obj = Person.objects.get(pk=pk)
+    print('Você será redirecionado')
+    return redirect(obj)
+
+
+def persons_redirected(request):
+    return HttpResponse(f'<p>Você foi redirecionado!</p>')
+
+
+def persons(request):
+    print('Você será redirecionado')
+    return redirect('core:persons_redirected')

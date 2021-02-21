@@ -301,6 +301,10 @@ path('person/redirected/<int:pk>/', v.person_redirected, name='person_redirected
 
 ```python
 # views.py
+from django.shortcuts import redirect
+from .models import Person
+
+
 def person_redirected(request, pk):
     person = Person.objects.get(pk=pk)
     return HttpResponse(f'<p>Você foi redirecionado! pk: {pk}</p><p>{ person.name }</p>')
@@ -311,6 +315,19 @@ def person_detail(request, pk):
     print('Você será redirecionado')
     return redirect(obj)
 ```
+
+```python
+# admin.py
+from django.contrib import admin
+from .models import Person
+
+
+@admin.register(Person)
+class PersonAdmin(admin.ModelAdmin):
+    list_display = ('__str__',)
+    search_fields = ('name',)
+```
+
 
 ### Um nome de view
 

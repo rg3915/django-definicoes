@@ -159,7 +159,10 @@ def ping(request):
     return HttpResponse(f'pong {name}')
 ```
 
+Rode a aplicação num terminal, e em outro terminal digite
+
 ```python
+$ python
 >>> import requests
 >>> url = 'http://localhost:8000/ping/?name=John&age=42'
 >>> r = requests.get(url)
@@ -252,3 +255,137 @@ def index(request):
     template_name = 'index.html'
     return render(request, template_name)
 ```
+
+
+## redirected
+
+### Um modelo
+
+Em `models.py` escreva
+
+```python
+# models.py
+from django.urls import reverse_lazy
+
+class Person(models.Model):
+    ...
+
+    def get_absolute_url(self):
+        return reverse_lazy('core:person_redirected', kwargs={'pk': self.pk})
+```
+
+E em `urls.py` escreva
+
+```python
+# urls.py
+path('person/<int:pk>/', v.person_detail, name='person_detail'),
+path('person/redirected/<int:pk>/', v.person_redirected, name='person_redirected'),
+```
+
+E em `views.py` escreva
+
+```python
+# views.py
+from django.shortcuts import redirect
+from .models import Person
+
+
+def person_redirected(request, pk):
+    person = Person.objects.get(pk=pk)
+    return HttpResponse(f'<p>Você foi redirecionado! pk: {pk}</p><p>{ person.name }</p>')
+
+
+def person_detail(request, pk):
+    obj = Person.objects.get(pk=pk)
+    print('Você será redirecionado')
+    return redirect(obj)
+```
+
+E em `index.html` escreva
+
+```html
+<!-- index.html -->
+    <li>
+      <a href="{% url 'core:person_detail' 1 %}">person detail</a>
+    </li>
+```
+
+E em `admin.py` escreva
+
+```python
+# admin.py
+from django.contrib import admin
+from .models import Person
+
+
+@admin.register(Person)
+class PersonAdmin(admin.ModelAdmin):
+    list_display = ('__str__',)
+    search_fields = ('name',)
+```
+
+### Um nome de view
+
+
+E em `urls.py` escreva
+
+```python
+#urls.py
+path('person/', v.persons, name='persons'),
+path('person/redirected/', v.persons_redirected, name='persons_redirected'),
+```
+
+
+E em `views.py` escreva
+
+```python
+# views.py
+def persons_redirected(request):
+    return HttpResponse(f'<p>Você foi redirecionado!</p>')
+
+
+def persons(request):
+    print('Você será redirecionado')
+    return redirect('core:persons_redirected')
+```
+
+E em `index.html` escreva
+
+```html
+<!-- index.html -->
+<li>
+  <a href="{% url 'core:persons' %}">persons</a>
+</li>
+```
+
+### Uma url absoluta ou relativa, quando for redirecionado pra outro local.
+
+```python
+# views.py
+def persons(request):
+    print('Você será redirecionado')
+    return redirect('/person/redirected/')
+```
+
+Cuidado, caso você tenha urls parecidas em apps diferentes.
+
+
+### Passando argumentos
+
+
+```python
+# urls.py
+path('user/redirected/<int:pk>/', v.user_redirected, name='user_redirected'),
+```
+
+
+```python
+# views.py
+def user_redirected(request, pk):
+    print('Você será redirecionado para user_detail')
+    return redirect('core:user_detail', pk=pk)
+```
+
+Leia também [gist: Métodos funções para salvar o form com redirect HttpResponseRedirect](https://gist.github.com/rg3915/27ecf311cc00a47d8fa262e1669e0299).
+
+

@@ -12,4 +12,8 @@ urlpatterns = [
     path('user/', v.users, name='users'),
     path('user/<int:pk>/', v.user_detail, name='user_detail'),
     path('ping/', v.ping, name='ping'),
+    path('person/<int:pk>/', v.person_detail, name='person_detail'),
+    path('person/redirected/<int:pk>/', v.person_redirected, name='person_redirected'),
+    path('person/', v.persons, name='persons'),
+    path('person/redirected/', v.persons_redirected, name='persons_redirected'),
 ]

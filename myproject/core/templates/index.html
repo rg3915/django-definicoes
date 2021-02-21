@@ -41,7 +41,10 @@
       <a href="{ url 'core:person_redirected' 1 %}">person_redirected</a>
     </li>
     <li>
-      <a href="{ url 'core:persons' %}">persons</a>
+      <a href="{% url 'core:persons' %}">persons</a>
+    </li>
+    <li>
+      <a href="{% url 'core:person_detail' 1 %}">person detail</a>
     </li>
     <li>
       <a href="{ url 'core:persons_redirected' %}">persons_redirected</a>

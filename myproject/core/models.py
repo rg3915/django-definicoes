@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse_lazy
 
 
 class Person(models.Model):
@@ -11,3 +12,6 @@ class Person(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse_lazy('core:person_redirected', kwargs={'pk': self.pk})
