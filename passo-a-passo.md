@@ -653,6 +653,7 @@ E usando `curl` fazer
 
 ```
 curl 'localhost:8000/ping/?name=John&age=42'
+```
 
 
 
