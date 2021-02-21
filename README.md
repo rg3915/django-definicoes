@@ -677,6 +677,9 @@ urlpatterns = [
 
 ```python
 # views.py
+from django.http import JsonResponse
+
+
 def ping_json(request):
     name = request.GET.get('name')
     age = request.GET.get('age')
@@ -686,6 +689,8 @@ def ping_json(request):
     }
     return JsonResponse(data)
 ```
+
+Abra um terminal e digite `python`
 
 
 ```python
@@ -723,6 +728,9 @@ def ping_json(request):
         data['age'] = age
     return JsonResponse(data)
 ```
+
+Abra um terminal e digite `python`
+
 
 ```python
 >>> import requests

@@ -20,4 +20,5 @@ urlpatterns = [
     path('book/<int:pk>/', v.book_detail, name='book_detail'),
     path('book/add/', v.BookCreateView.as_view(), name='book_create'),
     path('book/redirected/', v.book_redirected, name='book_redirected'),
+    path('ping/json/', v.ping_json, name='ping_json'),
 ]

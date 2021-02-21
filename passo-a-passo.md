@@ -558,7 +558,7 @@ def users(request):
 ```
 
 
-# HttpRequest
+## HttpRequest
 
 **Exemplo:**
 
@@ -681,5 +681,86 @@ def book_redirected(request):
 <li>
   <a href="{% url 'core:book_redirected' %}">book_redirected</a>
 </li>
+```
+
+## JsonResponse
+
+```python
+# urls.py
+path('ping/json/', v.ping_json, name='ping_json'),
+```
+
+```python
+#views.py
+from django.http import JsonResponse
+
+
+def ping_json(request):
+    name = request.GET.get('name')
+    age = request.GET.get('age')
+    data = {
+        'name': name,
+        'age': age
+    }
+    return JsonResponse(data)
+```
+
+Abra um terminal e digite `python`
+
+```python
+>>> import requests
+>>> url = 'http://localhost:8000/ping/json/?name=John&age=42'
+>>> r = requests.get(url)
+>>> r.content
+b'{"name": "John", "age": "42"}'
+>>> r.text
+'{"name": "John", "age": "42"}'
+>>> r.json()
+{'name': 'John', 'age': '42'}
+```
+
+Se você não enviar parâmetros, o dicionário vai retornar valores nulos.
+
+```python
+>>> import requests
+>>> url = 'http://localhost:8000/ping/json/'
+>>> r = requests.get(url)
+>>> r.json()
+{'name': None, 'age': None}
+```
+
+Dai, o interessante seria fazer
+
+```python
+def ping_json(request):
+    name = request.GET.get('name')
+    age = request.GET.get('age')
+    data = {}
+    if name:
+        data['name'] = name
+    if age:
+        data['age'] = age
+    return JsonResponse(data)
+```
+
+Abra um terminal e digite `python`
+
+
+```python
+>>> import requests
+>>> url = 'http://localhost:8000/ping/json/?name=John&age=42'
+>>> r = requests.get(url)
+>>> r.json()
+{'name': 'John', 'age': '42'}
+>>> 
+>>> url = 'http://localhost:8000/ping/json/?name=John'
+>>> r = requests.get(url)
+>>> r.json()
+{'name': 'John'}
+>>> 
+>>> url = 'http://localhost:8000/ping/json/'
+>>> r = requests.get(url)
+>>> r.json()
+{}
 ```
 

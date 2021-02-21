@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.shortcuts import render_to_response
@@ -88,3 +89,24 @@ class BookCreateView(CreateView):
 
 def book_redirected(request):
     return HttpResponseRedirect(reverse('core:book_list'))
+
+
+# def ping_json(request):
+#     name = request.GET.get('name')
+#     age = request.GET.get('age')
+#     data = {
+#         'name': name,
+#         'age': age
+#     }
+#     return JsonResponse(data)
+
+
+def ping_json(request):
+    name = request.GET.get('name')
+    age = request.GET.get('age')
+    data = {}
+    if name:
+        data['name'] = name
+    if age:
+        data['age'] = age
+    return JsonResponse(data)
