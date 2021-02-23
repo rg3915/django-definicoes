@@ -15,6 +15,14 @@ source boilerplatesimple.sh
 rm -f boilerplatesimple.sh
 ```
 
+## Configurar settings.py
+
+```python
+LANGUAGE_CODE = 'pt-br'
+
+TIME_ZONE = 'America/Sao_Paulo'
+```
+
 
 ## Criar um modelo para exemplificar
 
@@ -377,6 +385,8 @@ def user_redirected(request, pk):
 
 Leia também [gist: Métodos funções para salvar o form com redirect HttpResponseRedirect](https://gist.github.com/rg3915/27ecf311cc00a47d8fa262e1669e0299).
 
+Veremos um pouco mais de `redirect` mais pra frente.
+
 
 ## reverse
 
@@ -397,7 +407,7 @@ Em `models.py` escreva
 ```python
 # models.py
 class Book(models.Model):
-    title = models.CharField('título', max_length=100, unique=True)
+    title = models.CharField('título', max_length=50, unique=True)
 
     class Meta:
         ordering = ('title',)
@@ -545,6 +555,10 @@ from django.contrib.auth.decorators import login_required
 def users(request):
     return HttpResponse('<h1>Users</h1>')
 ```
+
+
+## Um pouco mais de redirect
+
 
 
 ## HttpRequest

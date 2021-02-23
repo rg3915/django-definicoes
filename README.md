@@ -381,6 +381,9 @@ def user_redirected(request, pk):
 
 Leia também [gist: Métodos funções para salvar o form com redirect HttpResponseRedirect](https://gist.github.com/rg3915/27ecf311cc00a47d8fa262e1669e0299).
 
+Veremos um pouco mais de `redirect` [mais pra frente]().
+
+
 
 # reverse
 
