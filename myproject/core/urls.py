@@ -18,7 +18,8 @@ urlpatterns = [
     path('person/redirected/', v.persons_redirected, name='persons_redirected'),
     path('book/', v.BookListView.as_view(), name='book_list'),
     path('book/<int:pk>/', v.book_detail, name='book_detail'),
-    path('book/add/', v.BookCreateView.as_view(), name='book_create'),
+    path('book/add/', v.book_create, name='book_create'),
+    path('book/add2/', v.BookCreateView.as_view(), name='book_create2'),
     path('book/redirected/', v.book_redirected, name='book_redirected'),
     path('ping/json/', v.ping_json, name='ping_json'),
 ]

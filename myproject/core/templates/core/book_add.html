@@ -1,0 +1,31 @@
+<!-- book_add.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="https://www.djangoproject.com/favicon.ico">
+  <title>Definitions</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+  <style>
+    body {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form action="." method="POST">
+      {% csrf_token %}
+
+      <label for="id_title">Título:</label>
+      <input type="text" name="title" maxlength="60" required="" id="id_title">
+
+      <button class="btn btn-primary" type="submit">Salvar</button>
+    </form>
+  </div>
+</body>
+</html>

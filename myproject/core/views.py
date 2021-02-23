@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -9,6 +10,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
+from .forms import BookForm
 from .models import Person, Book
 
 
@@ -70,6 +72,26 @@ def book_detail(request, pk):
 
 class BookListView(ListView):
     model = Book
+
+
+def book_create(request):
+    form = BookForm(request.POST or None)
+    template_name = 'core/book_add.html'
+
+    if request.method == 'POST':
+        ...
+        if form.is_valid():
+            ...
+            new_obj = form.save()
+            # kw = {'pk': new_obj.pk}
+            # return HttpResponseRedirect(reverse('core:person_detail', kwargs=kw))
+            return redirect('core:book_detail', new_obj.pk)
+        msg_error = form.errors.get('title')[0]
+        messages.error(request, msg_error)
+        return redirect('core:book_list')
+
+    context = {'form': form}
+    return render(request, template_name, context)
 
 
 class BookCreateView(CreateView):

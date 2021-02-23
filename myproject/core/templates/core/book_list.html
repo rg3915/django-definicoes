@@ -17,11 +17,32 @@
 </head>
 <body>
   <div class="container">
+    {% for message in messages %}
+      {% if 'success' in message.tags %}
+      <p class="alert alert-success" role="alert"><span style="font-weight:bold">{{ message }}</span></p>
+      {% else %}
+      <p class="alert alert-danger" role="alert"><span style="font-weight:bold">{{ message }}</span></p>
+      {% endif %}
+    {% endfor %}
+
     <ul>
       {% for person in object_list %}
         <li>{{ person }}</li>
       {% endfor %}
     </ul>
   </div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script>
+  //close alert after 3 seconds
+  window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+      $(this).remove();
+    });
+  }, 3000);
+</script>
+
 </body>
 </html>

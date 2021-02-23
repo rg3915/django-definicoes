@@ -559,6 +559,136 @@ def users(request):
 
 ## Um pouco mais de redirect
 
+Criar `forms.py`
+
+```python
+# forms.py
+from django import forms
+from .models import Book
+
+
+class BookForm(forms.ModelForm):
+
+    class Meta:
+        model = Book
+        fields = '__all__'
+```
+
+Criar `templates/core/book_add.html`
+
+```html
+<!-- book_add.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="https://www.djangoproject.com/favicon.ico">
+  <title>Definitions</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+  <style>
+    body {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form action="." method="POST">
+      {% csrf_token %}
+
+      <label for="id_title">Título:</label>
+      <input type="text" name="title" maxlength="60" required="" id="id_title">
+
+      <button class="btn btn-primary" type="submit">Salvar</button>
+    </form>
+  </div>
+</body>
+</html>
+```
+
+Em `index.html`
+
+```html
+<li>
+  <a href="{% url 'core:book_create' %}">book_create</a>
+</li>
+<li>
+  <a href="{% url 'core:book_create2' %}">book_create2</a>
+</li>
+```
+
+Em `book_list.html` acrescente dentro de `<body>`
+
+```html
+<div class="container">
+    {% for message in messages %}
+      {% if 'success' in message.tags %}
+      <p class="alert alert-success" role="alert"><span style="font-weight:bold">{{ message }}</span></p>
+      {% else %}
+      <p class="alert alert-danger" role="alert"><span style="font-weight:bold">{{ message }}</span></p>
+      {% endif %}
+    {% endfor %}
+
+    <ul>
+      {% for person in object_list %}
+        <li>{{ person }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script>
+  //close alert after 3 seconds
+  window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+      $(this).remove();
+    });
+  }, 3000);
+</script>
+```
+
+Em `urls.py`
+
+```python
+# urls.py
+path('book/add/', v.book_create, name='book_create'),
+path('book/add2/', v.BookCreateView.as_view(), name='book_create2'),
+```
+
+E finalmente, em `views.py`
+
+```python
+# views.py
+from django.contrib import messages
+...
+from .forms import BookForm
+
+
+def book_create(request):
+    form = BookForm(request.POST or None)
+    template_name = 'core/book_add.html'
+
+    if request.method == 'POST':
+        ...
+        if form.is_valid():
+            ...
+            new_obj = form.save()
+            # kw = {'pk': new_obj.pk}
+            # return HttpResponseRedirect(reverse('core:person_detail', kwargs=kw))
+            return redirect('core:book_detail', new_obj.pk)
+        msg_error = form.errors.get('title')[0]
+        messages.error(request, msg_error)
+        return redirect('core:book_list')
+
+    context = {'form': form}
+    return render(request, template_name, context)
+```
 
 
 ## HttpRequest
