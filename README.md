@@ -35,24 +35,24 @@ Definição e explicação com exemplos de:
 
 ### [django.shortcuts](https://docs.djangoproject.com/en/2.2/topics/http/shortcuts/)
 
-* [x] [render_to_string](#render_to_string) django.template.loader
-* [x] [render_to_response](#render_to_response) django.shortcuts
-* [x] [HttpResponse](#HttpResponse) django.http
-* [x] [render](#render) django.shortcuts
-* [x] [redirect](#redirect) django.shortcuts
+* [render_to_string](#render_to_string) django.template.loader
+* [render_to_response](#render_to_response) django.shortcuts
+* [HttpResponse](#HttpResponse) django.http
+* [render](#render) django.shortcuts
+* [redirect](#redirect) django.shortcuts
 
 ### [django.urls](https://docs.djangoproject.com/en/3.0/ref/urlresolvers/)
 
-* [x] [reverse](#reverse) django.urls
-* [x] [reverse_lazy](#reverse_lazy) django.urls
-* [x] [resolve](#resolve) django.urls
-* [x] [resolve_url](#resolve_url) django.shortcuts
+* [reverse](#reverse) django.urls
+* [reverse_lazy](#reverse_lazy) django.urls
+* [resolve](#resolve) django.urls
+* [resolve_url](#resolve_url) django.shortcuts
 
 ### [django.http](https://docs.djangoproject.com/en/3.0/ref/request-response/)
 
-* [x] [HttpRequest](#HttpRequest) django.http
-* [x] [HttpResponseRedirect](#HttpResponseRedirect) django.http
-* [x] [JsonResponse](#JsonResponse) django.http
+* [HttpRequest](#HttpRequest) django.http
+* [HttpResponseRedirect](#HttpResponseRedirect) django.http
+* [JsonResponse](#JsonResponse) django.http
 
 
 # render_to_string
