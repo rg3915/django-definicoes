@@ -6,7 +6,7 @@ Django: Guia de definições para redirect, reverse, reverse_lazy, HttpResponse 
 ## Este projeto foi feito com:
 
 * [Python 3.8.2](https://www.python.org/)
-* [Django 2.2.16](https://www.djangoproject.com/)
+* [Django 2.2.19](https://www.djangoproject.com/)
 
 ## Como rodar o projeto?
 
